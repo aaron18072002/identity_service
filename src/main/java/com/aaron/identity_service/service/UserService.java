@@ -3,6 +3,7 @@ package com.aaron.identity_service.service;
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.repository.UserRepository;
+import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private UserDao userDao;
 
     public User createUser(UserCreationRequest request) {
         User user = new User();

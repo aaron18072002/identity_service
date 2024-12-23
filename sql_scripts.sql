@@ -11,3 +11,7 @@ CREATE TABLE users (
 );
 
 SELECT * FROM users;
+
+SELECT LAST_INSERT_ID();
+
+truncate users;
