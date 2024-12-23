@@ -4,6 +4,7 @@ import com.aaron.identity_service.entity.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -40,6 +41,7 @@ public class UserDao implements Dao<User> {
         return entity;
     }
 
+    @Modifying
     @Override
     public User update(String entityId, User entity) {
         String query = """
@@ -60,7 +62,7 @@ public class UserDao implements Dao<User> {
                     .setParameter(5, entityId)
                     .executeUpdate();
             result = (User) this.entityManager.createNativeQuery
-                    ("SELECT * FROM user AS U where U.user_id = ?", User.class)
+                    (getUserQuery, User.class)
                     .setParameter(1, entityId)
                     .getSingleResult();
         } catch (Exception e) {
