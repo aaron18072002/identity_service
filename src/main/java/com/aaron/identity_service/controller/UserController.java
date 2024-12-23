@@ -20,13 +20,19 @@ public class UserController {
     @PostMapping("/create")
     public ResponseEntity<User> create(@RequestBody UserCreationRequest request) {
         User user = this.userService.createUser(request);
-        return new ResponseEntity<User>(user, HttpStatus.CREATED);
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
     public ResponseEntity<List<User>> getAll() {
         List<User> users = this.userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
+        User user = this.userService.getUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
 }
