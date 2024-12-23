@@ -50,13 +50,8 @@ public class UserDao implements Dao<User> {
         String getUserQuery = """
                 SELECT * FROM user AS U where U.user_id = ?;
                 """;
-        User userFrDb = null;
+        User result = null;
         try {
-            userFrDb = (User) this.entityManager.createNativeQuery
-                            ("SELECT * FROM user AS U where U.user_id = ?", User.class)
-                    .setParameter(1, entityId)
-                    .getSingleResult();
-
             this.entityManager.createNativeQuery(query)
                     .setParameter(1, entity.getFirstName())
                     .setParameter(2, entity.getLastName())
@@ -64,10 +59,14 @@ public class UserDao implements Dao<User> {
                     .setParameter(4, entity.getPassword())
                     .setParameter(5, entityId)
                     .executeUpdate();
+            result = (User) this.entityManager.createNativeQuery
+                    ("SELECT * FROM user AS U where U.user_id = ?", User.class)
+                    .setParameter(1, entityId)
+                    .getSingleResult();
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return null;
         }
-        return userFrDb;
+        return result;
     }
 }
