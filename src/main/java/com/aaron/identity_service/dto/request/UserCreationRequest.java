@@ -1,13 +1,24 @@
 package com.aaron.identity_service.dto.request;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.time.LocalDate;
 
 public class UserCreationRequest {
 
+    @NotNull(message = "username must be not null")
+    @Size(min = 8, max = 30, message = "username must be between 8 and 30 characters")
     private String username;
+
     private String password;
+
+    @Size(min = 8, max = 30, message = "firstName must be between 8 and 30 characters")
     private String firstName;
+
+    @Size(min = 8, max = 30, message = "lastName must be between 8 and 30 characters")
     private String lastName;
+
     private LocalDate dob;
 
     private UserCreationRequest() {
