@@ -1,5 +1,6 @@
 package com.aaron.identity_service.controller;
 
+import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.service.UserService;
@@ -32,6 +33,12 @@ public class UserController {
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
         User user = this.userService.getUserById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    @PutMapping("/{userId}")
+    public ResponseEntity<User> updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
+        User user = this.userService.updateUser(userId,request);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

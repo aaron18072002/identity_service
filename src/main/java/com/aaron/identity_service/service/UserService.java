@@ -1,6 +1,7 @@
 package com.aaron.identity_service.service;
 
 import com.aaron.identity_service.dto.request.UserCreationRequest;
+import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
@@ -37,6 +38,17 @@ public class UserService {
     public User getUserById(String userId) {
         return this.userRepository.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    public User updateUser(String userId, UserUpdateRequest request) {
+        User user = this.getUserById(userId);
+
+        user.setPassword(request.getPassword());
+        user.setFirstName(request.getFirstName());
+        user.setLastName(request.getLastName());
+        user.setDob(request.getDob());
+
+        return this.userRepository.save(user);
     }
 
 }

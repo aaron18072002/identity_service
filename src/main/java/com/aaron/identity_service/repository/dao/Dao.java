@@ -6,6 +6,6 @@ public interface Dao<T> {
 
     T create(T entity);
 
-//    List<T> getAll();
+    T update(String entityId,T entity);
 
 }

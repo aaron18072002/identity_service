@@ -39,4 +39,35 @@ public class UserDao implements Dao<User> {
         }
         return entity;
     }
+
+    @Override
+    public User update(String entityId, User entity) {
+        String query = """
+                UPDATE users
+                SET first_name = ?, last_name = ?, dob = ?, password = ?
+                WHERE user_id = ?;
+                """;
+        String getUserQuery = """
+                SELECT * FROM user AS U where U.user_id = ?;
+                """;
+        User userFrDb = null;
+        try {
+            userFrDb = (User) this.entityManager.createNativeQuery
+                            ("SELECT * FROM user AS U where U.user_id = ?", User.class)
+                    .setParameter(1, entityId)
+                    .getSingleResult();
+
+            this.entityManager.createNativeQuery(query)
+                    .setParameter(1, entity.getFirstName())
+                    .setParameter(2, entity.getLastName())
+                    .setParameter(3, entity.getDob())
+                    .setParameter(4, entity.getPassword())
+                    .setParameter(5, entityId)
+                    .executeUpdate();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return userFrDb;
+    }
 }
