@@ -25,4 +25,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "DELETE FROM users WHERE user_id LIKE :userId", nativeQuery = true)
     void deleteUserById(@Param("userId") String id);
 
+    @Query(value = "SELECT COUNT(*) FROM users AS U WHERE U.username LIKE :username", nativeQuery = true)
+    int existsUserByUsername(@Param("username") String username);
+
 }

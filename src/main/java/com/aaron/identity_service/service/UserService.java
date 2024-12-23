@@ -22,13 +22,17 @@ public class UserService {
     public User createUser(UserCreationRequest request) {
         User user = new User();
 
+        if(this.userRepository.existsUserByUsername(request.getUsername()) > 0) {
+            throw new RuntimeException("Username already exists");
+        }
+
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());
 
-        return this.userRepository.save(user);
+        return this.userDao.create(user);
     }
 
     public List<User> getAllUsers() {

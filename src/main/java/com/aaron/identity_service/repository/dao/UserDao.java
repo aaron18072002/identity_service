@@ -35,8 +35,7 @@ public class UserDao implements Dao<User> {
 //            var id = this.entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
 //            entity.setUserId(String.valueOf(id));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException("Create new user failed", e);
         }
         return entity;
     }

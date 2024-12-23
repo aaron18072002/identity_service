@@ -15,3 +15,5 @@ SELECT * FROM users;
 SELECT LAST_INSERT_ID();
 
 truncate users;
+
+SELECT ifnull(false) FROM users AS U WHERE U.username LIKE 'abc';
