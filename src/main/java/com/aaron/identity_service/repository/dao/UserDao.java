@@ -45,11 +45,11 @@ public class UserDao implements Dao<User> {
     public User update(String entityId, User entity) {
         String query = """
                 UPDATE users
-                SET first_name = ?, last_name = ?, dob = ?, password = ?
-                WHERE user_id = ?;
+                SET first_name = ?, last_name = ?, dob = ?
+                WHERE user_id LIKE ?;
                 """;
         String getUserQuery = """
-                SELECT * FROM user AS U where U.user_id = ?;
+                SELECT * FROM user AS U where U.user_id LIKE ?;
                 """;
         User result = null;
         try {
@@ -57,16 +57,14 @@ public class UserDao implements Dao<User> {
                     .setParameter(1, entity.getFirstName())
                     .setParameter(2, entity.getLastName())
                     .setParameter(3, entity.getDob())
-                    .setParameter(4, entity.getPassword())
-                    .setParameter(5, entityId)
+                    .setParameter(4, entityId)
                     .executeUpdate();
             result = (User) this.entityManager.createNativeQuery
                     (getUserQuery, User.class)
                     .setParameter(1, entityId)
                     .getSingleResult();
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return null;
+            throw new RuntimeException("Update user failed", e);
         }
         return result;
     }
