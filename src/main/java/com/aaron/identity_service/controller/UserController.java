@@ -48,8 +48,8 @@ public class UserController {
 
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
-        UserResponse userReponse = this.userService.updateUser(userId,request);
-        return new ResponseEntity<>(userReponse, HttpStatus.OK);
+        UserResponse userResponse = this.userService.updateUser(userId,request);
+        return new ResponseEntity<>(userResponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
