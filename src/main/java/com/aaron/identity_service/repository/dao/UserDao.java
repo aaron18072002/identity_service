@@ -20,25 +20,32 @@ public class UserDao implements Dao<User> {
 
     @Override
     public User create(User entity) {
-        String query = """
-                INSERT INTO users(username,password,first_name,last_name,dob)
-                VALUES (?,?,?,?,?)
-            """;
+        String insertQuery = """
+            INSERT INTO users(username, password, first_name, last_name, dob)
+            VALUES (?, ?, ?, ?, ?)
+        """;
+        String getLatestUser = """
+            SELECT * FROM users AS U WHERE U.username = ?
+        """;
+        User result = null;
         try {
-            this.entityManager.createNativeQuery(query, User.class)
+            this.entityManager.createNativeQuery(insertQuery)
                     .setParameter(1, entity.getUsername())
                     .setParameter(2, entity.getPassword())
                     .setParameter(3, entity.getFirstName())
                     .setParameter(4, entity.getLastName())
                     .setParameter(5, entity.getDob())
                     .executeUpdate();
-//            var id = this.entityManager.createNativeQuery("SELECT LAST_INSERT_ID()").getSingleResult();
-//            entity.setUserId(String.valueOf(id));
+
+            result = (User) this.entityManager.createNativeQuery(getLatestUser, User.class)
+                    .setParameter(1, entity.getUsername())
+                    .getSingleResult();
         } catch (Exception e) {
             throw new RuntimeException("Create new user failed", e);
         }
-        return entity;
+        return result;
     }
+
 
     @Modifying
     @Override

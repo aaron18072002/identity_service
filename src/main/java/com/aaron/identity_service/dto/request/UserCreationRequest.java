@@ -13,10 +13,10 @@ public class UserCreationRequest {
 
     private String password;
 
-    @Size(min = 8, max = 30, message = "firstName must be between 8 and 30 characters")
+    @Size(min = 3, max = 30, message = "firstName must be between 8 and 30 characters")
     private String firstName;
 
-    @Size(min = 8, max = 30, message = "lastName must be between 8 and 30 characters")
+    @Size(min = 3, max = 30, message = "lastName must be between 8 and 30 characters")
     private String lastName;
 
     private LocalDate dob;
