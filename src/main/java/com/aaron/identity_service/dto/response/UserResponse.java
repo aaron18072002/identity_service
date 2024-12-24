@@ -9,7 +9,7 @@ public class UserResponse {
     private String userId;
     private String username;
 
-    @JsonIgnore
+//    @JsonIgnore
     private String password;
 
     private String firstName;

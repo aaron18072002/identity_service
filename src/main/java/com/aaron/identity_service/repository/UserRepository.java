@@ -28,4 +28,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query(value = "SELECT COUNT(*) FROM users AS U WHERE U.username LIKE :username", nativeQuery = true)
     int existsUserByUsername(@Param("username") String username);
 
+    @Query(value = "SELECT * FROM users AS U WHERE U.username LIKE :username", nativeQuery = true)
+    Optional<User> getUserByUsername(@Param("username") String username);
+
 }

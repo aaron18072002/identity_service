@@ -10,6 +10,9 @@ import com.aaron.identity_service.mapper.UserMapper;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -25,21 +28,25 @@ public class UserService {
 
     private final UserMapper userMapper;
 
+    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
-    public UserService(UserRepository userRepository, UserDao userDao, UserMapper userMapper) {
+    public UserService(UserRepository userRepository, UserDao userDao,
+                       UserMapper userMapper) {
         this.userRepository = userRepository;
         this.userDao = userDao;
         this.userMapper = userMapper;
     }
 
-    public User createUser(UserCreationRequest request) {
+    public UserResponse createUser(UserCreationRequest request) {
         if(this.userRepository.existsUserByUsername(request.getUsername()) > 0) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
         User user = this.userMapper.toUser(request);
+        user.setPassword(this.passwordEncoder.encode(user.getPassword()));
 
-        return this.userDao.create(user);
+        return this.userMapper.toUserReponse(this.userDao.create(user));
     }
 
     public List<UserResponse> getAllUsers() {
