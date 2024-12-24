@@ -3,6 +3,8 @@ package com.aaron.identity_service.service;
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.entity.User;
+import com.aaron.identity_service.exception.AppException;
+import com.aaron.identity_service.exception.ErrorCode;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class UserService {
         User user = new User();
 
         if(this.userRepository.existsUserByUsername(request.getUsername()) > 0) {
-            throw new RuntimeException("Username already exists");
+            throw new AppException(ErrorCode.USER_EXISTED);
         }
 
         user.setUsername(request.getUsername());
