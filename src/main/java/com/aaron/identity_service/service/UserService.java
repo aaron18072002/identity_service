@@ -2,59 +2,69 @@ package com.aaron.identity_service.service;
 
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
+import com.aaron.identity_service.dto.response.UserResponse;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.exception.AppException;
 import com.aaron.identity_service.exception.ErrorCode;
+import com.aaron.identity_service.mapper.UserMapper;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    // final là immutable ở STACK
+    private final UserRepository userRepository;
+
+    private final UserDao userDao;
+
+    private final UserMapper userMapper;
 
     @Autowired
-    private UserDao userDao;
+    public UserService(UserRepository userRepository, UserDao userDao, UserMapper userMapper) {
+        this.userRepository = userRepository;
+        this.userDao = userDao;
+        this.userMapper = userMapper;
+    }
 
     public User createUser(UserCreationRequest request) {
-        User user = new User();
-
         if(this.userRepository.existsUserByUsername(request.getUsername()) > 0) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }
 
-        user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDob(request.getDob());
+        User user = this.userMapper.toUser(request);
 
         return this.userDao.create(user);
     }
 
-    public List<User> getAllUsers() {
-        return this.userRepository.getAllUsers();
+    public List<UserResponse> getAllUsers() {
+        List<User> users =  this.userRepository.getAllUsers();
+        List<UserResponse> userResponses = new ArrayList<>();
+        for(User user:users) {
+            userResponses.add(this.userMapper.toUserReponse(user));
+        }
+
+        return userResponses;
     }
 
-    public User getUserById(String userId) {
-        return this.userRepository.getUserById(userId)
+    public UserResponse getUserById(String userId) {
+        return this.userMapper.toUserReponse(this.userRepository.getUserById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found")));
+    }
+
+    public UserResponse updateUser(String userId, UserUpdateRequest request) {
+        User user = this.userRepository.getUserById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-    }
 
-    public User updateUser(String userId, UserUpdateRequest request) {
-        User user = this.getUserById(userId);
+        // ghi đè lại user vừa fetch
+        this.userMapper.updateUser(user, request);
 
-        user.setPassword(request.getPassword());
-        user.setFirstName(request.getFirstName());
-        user.setLastName(request.getLastName());
-        user.setDob(request.getDob());
-
-        return this.userRepository.save(user);
+        return this.userMapper.toUserReponse(this.userRepository.save(user));
     }
 
     public void deleteUser(String userId) {

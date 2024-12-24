@@ -3,6 +3,7 @@ package com.aaron.identity_service.controller;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.dto.response.ApiResponse;
+import com.aaron.identity_service.dto.response.UserResponse;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.service.UserService;
 import jakarta.validation.Valid;
@@ -17,8 +18,12 @@ import java.util.List;
 @RequestMapping("/user")
 public class UserController {
 
+    public final UserService userService;
+
     @Autowired
-    public UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping("/create")
     public ApiResponse<User> create(@RequestBody @Valid UserCreationRequest request) {
@@ -30,21 +35,21 @@ public class UserController {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<User>> getAll() {
-        List<User> users = this.userService.getAllUsers();
+    public ResponseEntity<List<UserResponse>> getAll() {
+        List<UserResponse> users = this.userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<User> getUser(@PathVariable("userId") String userId) {
-        User user = this.userService.getUserById(userId);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserResponse> getUser(@PathVariable("userId") String userId) {
+        UserResponse userReponse = this.userService.getUserById(userId);
+        return new ResponseEntity<>(userReponse, HttpStatus.OK);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<User> updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
-        User user = this.userService.updateUser(userId,request);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
+        UserResponse userReponse = this.userService.updateUser(userId,request);
+        return new ResponseEntity<>(userReponse, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
