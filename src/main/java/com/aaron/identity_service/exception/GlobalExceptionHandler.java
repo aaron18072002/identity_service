@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Object>> handlingRuntimeException(RuntimeException ex) {
         ApiResponse<Object> apiResponse = new ApiResponse<>();
 
-        apiResponse.setCode(1001);
-        apiResponse.setMessage(ex.getMessage());
+        apiResponse.setCode(ErrorCode.UNCATEGORIZED_ERROR.getCode());
+        apiResponse.setMessage(ErrorCode.UNCATEGORIZED_ERROR.getMessage());
 
         return ResponseEntity.badRequest().body(apiResponse);
     }
@@ -31,8 +31,22 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handlingValidationException(MethodArgumentNotValidException ex) {
-        return ResponseEntity.badRequest().body(ex.getBindingResult().getFieldError().getDefaultMessage());
+    public ResponseEntity<ApiResponse<Object>> handlingValidationException(MethodArgumentNotValidException ex) {
+        ErrorCode errorCode;
+
+        String emumKey = ex.getFieldError().getDefaultMessage();
+        try {
+            errorCode = ErrorCode.valueOf(emumKey);
+        } catch (IllegalArgumentException e) {
+            errorCode = ErrorCode.GENERIC_ERROR;
+        }
+
+        ApiResponse<Object> apiResponse = new ApiResponse<>();
+
+        apiResponse.setCode(errorCode.getCode());
+        apiResponse.setMessage(errorCode.getMessage());
+
+        return ResponseEntity.badRequest().body(apiResponse);
     }
 
 }
