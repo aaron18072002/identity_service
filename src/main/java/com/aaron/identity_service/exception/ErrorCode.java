@@ -6,7 +6,8 @@ public enum ErrorCode {
     USER_NOT_EXISTED(1005, "User not existed"),
     UNCATEGORIZED_ERROR(9999, "Uncategorized error"),
     USERNAME_INVALID(1003, "username must be between 8 and 30 characters"),
-    PASSWORD_INVALID(1004, "password invalid");
+    PASSWORD_INVALID(1004, "password invalid"),
+    UNAUTHENTICATED(1006, "Unauthenticated"),;
 
     private int code = 1001; // auto có thêm static final
     private String message = "Error happened";

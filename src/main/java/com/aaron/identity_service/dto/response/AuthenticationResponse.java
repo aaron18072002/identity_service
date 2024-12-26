@@ -2,33 +2,43 @@ package com.aaron.identity_service.dto.response;
 
 public class AuthenticationResponse {
 
-    private boolean isAuthenticated;
+    private String token;
+
+    private boolean authenticated = false;
 
     private AuthenticationResponse() {
 
     }
 
     private AuthenticationResponse(Builder builder) {
-        this.isAuthenticated = builder.isAuthenticated;
+        this.token = builder.token;
+        this.authenticated = builder.authenticated;
     }
 
     public static Builder builder() {
         return new Builder();
     }
 
-    public boolean isAuthenticated() {
-        return isAuthenticated;
+    public String getToken() {
+        return token;
     }
 
-    public void setAuthenticated(boolean authenticated) {
-        isAuthenticated = authenticated;
+    public boolean isAuthenticated() {
+        return authenticated;
     }
 
     public static class Builder {
-        private boolean isAuthenticated;
 
-        public Builder withIsAuthenticated(boolean isAuthenticated) {
-            this.isAuthenticated = isAuthenticated;
+        private String token;
+        private boolean authenticated;
+
+        public Builder withToken(String token) {
+            this.token = token;
+            return this;
+        }
+
+        public Builder withAuthenticated(boolean authenticated) {
+            this.authenticated = authenticated;
             return this;
         }
 
