@@ -70,23 +70,24 @@ public class AuthenticationService {
         }
 
         return AuthenticationResponse.builder()
-                .withToken(this.generateToken(user.getUsername(), user.getPassword()))
+                .withToken(this.generateToken(user))
                 .withAuthenticated(true)
                 .build();
 
     }
 
-    private String generateToken(String username, String userId) {
+    private String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
 
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(username)
+                .subject(user.getUsername())
                 .issuer("aaron.com")
                 .issueTime(new Date())
                 .expirationTime(new Date(
                         Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()
                 ))
-                .claim("userId", userId)
+                .claim("userId", user.getUserId())
+                .claim("scope", this.buildScope(user))
                 .build();
 
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
@@ -100,6 +101,14 @@ public class AuthenticationService {
             log.error("Cannot create token", e);
             throw new RuntimeException(e);
         }
+    }
+
+    private String buildScope(User user) {
+        if(user.getRole() == null) {
+            return null;
+        }
+
+        return user.getRole().getRoleName();
     }
 
 }

@@ -1,7 +1,7 @@
 package com.aaron.identity_service.enums;
 
 public enum Role {
-    USER("user"), ADMIN("admin");
+    USER("USER"), ADMIN("ADMIN");
 
     private final String name;
 

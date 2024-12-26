@@ -7,10 +7,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class JwtBean {
 
-    @Bean
-    @Qualifier("bCryptPasswordEncoder")
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+//    @Bean
+//    @Qualifier("bCryptPasswordEncoder")
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
 
 }
