@@ -27,6 +27,18 @@ public class User {
     @Column(name = "dob", columnDefinition = "DATE")
     private LocalDate dob;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role_id", foreignKey = @ForeignKey(name = "fk_role"))
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public String getUserId() {
         return userId;
     }

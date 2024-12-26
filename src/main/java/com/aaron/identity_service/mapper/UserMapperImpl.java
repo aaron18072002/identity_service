@@ -3,11 +3,17 @@ package com.aaron.identity_service.mapper;
 import com.aaron.identity_service.dto.request.UserCreationRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.response.UserResponse;
+import com.aaron.identity_service.entity.Role;
 import com.aaron.identity_service.entity.User;
+import com.aaron.identity_service.repository.RoleRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapperImpl implements UserMapper {
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public User toUser(UserCreationRequest request) {
@@ -18,6 +24,8 @@ public class UserMapperImpl implements UserMapper {
         user.setFirstName(request.getFirstName());
         user.setLastName(request.getLastName());
         user.setDob(request.getDob());
+
+        user.setRole(this.roleRepository.findRoleByName("USER"));
 
         return user;
     }
@@ -39,6 +47,7 @@ public class UserMapperImpl implements UserMapper {
                 .withFirstName(user.getFirstName())
                 .withLastName(user.getLastName())
                 .withPassword(user.getPassword())
+                .withRole(user.getRole())
                 .build();
     }
 }

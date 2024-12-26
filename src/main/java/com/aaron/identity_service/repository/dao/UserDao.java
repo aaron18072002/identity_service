@@ -21,8 +21,8 @@ public class UserDao implements Dao<User> {
     @Override
     public User create(User entity) {
         String insertQuery = """
-            INSERT INTO users(username, password, first_name, last_name, dob)
-            VALUES (?, ?, ?, ?, ?)
+            INSERT INTO users(username, password, first_name, last_name, dob, role_id)
+            VALUES (?, ?, ?, ?, ?, ?)
         """;
         String getLatestUser = """
             SELECT * FROM users AS U WHERE U.username = ?
@@ -35,6 +35,7 @@ public class UserDao implements Dao<User> {
                     .setParameter(3, entity.getFirstName())
                     .setParameter(4, entity.getLastName())
                     .setParameter(5, entity.getDob())
+                    .setParameter(6, entity.getRole().getRoleId())
                     .executeUpdate();
 
             result = (User) this.entityManager.createNativeQuery(getLatestUser, User.class)

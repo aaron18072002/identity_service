@@ -1,5 +1,6 @@
 package com.aaron.identity_service.dto.response;
 
+import com.aaron.identity_service.entity.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.time.LocalDate;
@@ -9,12 +10,14 @@ public class UserResponse {
     private String userId;
     private String username;
 
-//    @JsonIgnore
+    @JsonIgnore
     private String password;
 
     private String firstName;
     private String lastName;
     private LocalDate dob;
+
+    private Role role;
 
     private UserResponse() {
 
@@ -27,6 +30,7 @@ public class UserResponse {
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.dob = builder.dob;
+        this.role = builder.role;
     }
 
     public static Builder builder() {
@@ -57,6 +61,10 @@ public class UserResponse {
         return username;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
     public static class Builder {
 
         private String userId;
@@ -65,6 +73,7 @@ public class UserResponse {
         private String firstName;
         private String lastName;
         private LocalDate dob;
+        private Role role;
 
         public Builder withUserId(String userId) {
             this.userId = userId;
@@ -93,6 +102,11 @@ public class UserResponse {
 
         public Builder withDob(LocalDate dob) {
             this.dob = dob;
+            return this;
+        }
+
+        public Builder withRole(Role role) {
+            this.role = role;
             return this;
         }
 
