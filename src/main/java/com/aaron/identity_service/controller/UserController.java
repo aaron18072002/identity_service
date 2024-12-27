@@ -58,6 +58,16 @@ public class UserController {
         return new ResponseEntity<>(userReponse, HttpStatus.OK);
     }
 
+    @GetMapping("/myInfo")
+    public ApiResponse<UserResponse> getMyInfo() {
+        UserResponse userResponse = this.userService.getMyInfo();
+
+        ApiResponse<UserResponse> response = new ApiResponse<>();
+        response.setResult(userResponse);
+
+        return response;
+    }
+
     @PutMapping("/{userId}")
     public ResponseEntity<UserResponse> updateUser(@PathVariable("userId") String userId, @RequestBody UserUpdateRequest request) {
         UserResponse userResponse = this.userService.updateUser(userId,request);
