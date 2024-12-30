@@ -20,7 +20,7 @@ public class Role {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<User> users;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<RolePermission> rolePermissions;
 
     public List<RolePermission> getRolePermissions() {

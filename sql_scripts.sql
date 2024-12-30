@@ -61,5 +61,22 @@ SELECT * FROM roles;
                 
 SELECT * FROM permissions;
 
+-- ADMIN thì có full quyền
+INSERT INTO roles_permissions(role_id,permission_name)
+VALUES (2, 'APPROVE_POST'),
+	   (2, 'CREATE_DATA'),
+       (2, 'REJECT_POST'),
+       (2, 'UPDATE_DATA');
+       
+INSERT INTO roles_permissions(role_id,permission_name)
+VALUES (1, 'CREATE_DATA'),
+       (1, 'UPDATE_DATA');
+       
+SELECT  R.role_id,R.role_name,RP.permission_name
+FROM roles AS R
+LEFT JOIN roles_permissions AS RP
+ON R.role_id = RP.role_id
+ORDER BY role_id;
+
 
 

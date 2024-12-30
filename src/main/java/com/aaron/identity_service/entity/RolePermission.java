@@ -1,6 +1,7 @@
 package com.aaron.identity_service.entity;
 
 import com.aaron.identity_service.entity.keys.KeyRolePermission;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,6 +13,7 @@ public class RolePermission {
     @EmbeddedId
     private KeyRolePermission keys;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "role_id", insertable = false, updatable = false)
     private Role role;
