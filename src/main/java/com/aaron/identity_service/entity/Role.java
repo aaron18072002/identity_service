@@ -20,6 +20,17 @@ public class Role {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
     private List<User> users;
 
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "role")
+    private List<RolePermission> rolePermissions;
+
+    public List<RolePermission> getRolePermissions() {
+        return rolePermissions;
+    }
+
+    public void setRolePermissions(List<RolePermission> rolePermissions) {
+        this.rolePermissions = rolePermissions;
+    }
+
     public int getRoleId() {
         return roleId;
     }

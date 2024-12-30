@@ -15,6 +15,26 @@ CREATE TABLE roles (
     role_name VARCHAR(20)
 );
 
+CREATE TABLE permissions (
+	permission_name VARCHAR(30) primary key,
+    description VARCHAR(200)
+);
+
+CREATE TABLE roles_permissions (
+	role_id INT,
+    permission_name VARCHAR(30) ,
+    
+    PRIMARY KEY(role_id, permission_name)
+);
+
+ALTER TABLE roles_permissions
+ADD CONSTRAINT fk_roles_permissions_roles
+foreign key (role_id) references roles(role_id);
+
+ALTER TABLE roles_permissions
+ADD CONSTRAINT fk_roles_permissions_permissions
+foreign key (permission_name) references permissions(permission_name);
+
 ALTER TABLE users
 ADD COLUMN role_id INT;
 
