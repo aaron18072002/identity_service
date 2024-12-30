@@ -43,6 +43,8 @@ public class UserService {
     }
 
     public UserResponse getMyInfo() {
+        // context là token lấy từ request.Headers.Authorization
+        // và sau đó được decoded
         var context = SecurityContextHolder.getContext();
         String name = context.getAuthentication().getName();
 
