@@ -1,9 +1,8 @@
 package com.aaron.identity_service.mapper;
 
-import com.aaron.identity_service.dto.request.UserCreationRequest;
+import com.aaron.identity_service.dto.request.UserCreateRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.response.UserResponse;
-import com.aaron.identity_service.entity.Role;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ public class UserMapperImpl implements UserMapper {
     private RoleRepository roleRepository;
 
     @Override
-    public User toUser(UserCreationRequest request) {
+    public User toUser(UserCreateRequest request) {
         User user = new User();
 
         user.setUsername(request.getUsername());

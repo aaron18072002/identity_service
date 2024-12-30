@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 
-public class UserCreationRequest {
+public class UserCreateRequest {
 
     @NotNull(message = "USERNAME_INVALID")
     @Size(min = 8, max = 30, message = "USERNAME_INVALID")
@@ -22,11 +22,11 @@ public class UserCreationRequest {
 
     private LocalDate dob;
 
-    private UserCreationRequest() {
+    private UserCreateRequest() {
 
     }
 
-    private UserCreationRequest(Builder builder) {
+    private UserCreateRequest(Builder builder) {
         this.username = builder.username;
         this.password = builder.password;
         this.firstName = builder.firstName;
@@ -91,8 +91,8 @@ public class UserCreationRequest {
             return this;
         }
 
-        public UserCreationRequest build() {
-            return new UserCreationRequest(this);
+        public UserCreateRequest build() {
+            return new UserCreateRequest(this);
         }
 
     }

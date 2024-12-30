@@ -1,6 +1,6 @@
 package com.aaron.identity_service.service;
 
-import com.aaron.identity_service.dto.request.UserCreationRequest;
+import com.aaron.identity_service.dto.request.UserCreateRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.response.UserResponse;
 import com.aaron.identity_service.entity.User;
@@ -10,10 +10,7 @@ import com.aaron.identity_service.mapper.UserMapper;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -54,7 +51,7 @@ public class UserService {
         return this.userMapper.toUserReponse(user);
     }
 
-    public UserResponse createUser(UserCreationRequest request) {
+    public UserResponse createUser(UserCreateRequest request) {
         if(this.userRepository.existsUserByUsername(request.getUsername()) > 0) {
             throw new AppException(ErrorCode.USER_EXISTED);
         }

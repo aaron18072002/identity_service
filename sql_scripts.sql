@@ -56,6 +56,10 @@ VALUE ('USER'),
       
 SELECT * FROM roles;
 
+-- INSERT INTO permissions(permission_name, description)
+--                 VALUES ('UPDATE_DATA','Update date permission');
+                
+SELECT * FROM permissions;
 
 
 

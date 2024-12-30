@@ -1,10 +1,9 @@
 package com.aaron.identity_service.controller;
 
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
-import com.aaron.identity_service.dto.request.UserCreationRequest;
+import com.aaron.identity_service.dto.request.UserCreateRequest;
 import com.aaron.identity_service.dto.response.ApiResponse;
 import com.aaron.identity_service.dto.response.UserResponse;
-import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.service.UserService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -30,7 +29,7 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ApiResponse<UserResponse> create(@RequestBody @Valid UserCreationRequest request) {
+    public ApiResponse<UserResponse> create(@RequestBody @Valid UserCreateRequest request) {
         ApiResponse<UserResponse> apiResponse = new ApiResponse<>();
 
         apiResponse.setResult(this.userService.createUser(request));

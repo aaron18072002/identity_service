@@ -1,6 +1,6 @@
 package com.aaron.identity_service.mapper;
 
-import com.aaron.identity_service.dto.request.UserCreationRequest;
+import com.aaron.identity_service.dto.request.UserCreateRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.response.UserResponse;
 import com.aaron.identity_service.entity.User;
@@ -12,7 +12,7 @@ public interface UserMapper {
      * @param request type of dto
      * @return entity
      */
-    User toUser(UserCreationRequest request);
+    User toUser(UserCreateRequest request);
 
     void updateUser(User user, UserUpdateRequest request);
 
