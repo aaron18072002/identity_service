@@ -109,7 +109,7 @@ public class AuthenticationService {
         StringJoiner stringJoiner = new StringJoiner(" ");
 
         if(user.getRole() != null) {
-            stringJoiner.add(user.getRole().getRoleName());
+            stringJoiner.add("ROLE_" + user.getRole().getRoleName());
             if(!CollectionUtils.isEmpty(user.getRole().getRolePermissions())) {
                 user.getRole().getRolePermissions()
                         .stream()
