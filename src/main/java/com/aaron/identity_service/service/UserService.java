@@ -3,10 +3,12 @@ package com.aaron.identity_service.service;
 import com.aaron.identity_service.dto.request.UserCreateRequest;
 import com.aaron.identity_service.dto.request.UserUpdateRequest;
 import com.aaron.identity_service.dto.response.UserResponse;
+import com.aaron.identity_service.entity.Role;
 import com.aaron.identity_service.entity.User;
 import com.aaron.identity_service.exception.AppException;
 import com.aaron.identity_service.exception.ErrorCode;
 import com.aaron.identity_service.mapper.UserMapper;
+import com.aaron.identity_service.repository.RoleRepository;
 import com.aaron.identity_service.repository.UserRepository;
 import com.aaron.identity_service.repository.dao.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class UserService {
     // final là immutable ở STACK
     private final UserRepository userRepository;
 
+    private final RoleRepository roleRepository;
+
     private final UserDao userDao;
 
     private final UserMapper userMapper;
@@ -33,10 +37,11 @@ public class UserService {
 
     @Autowired
     public UserService(UserRepository userRepository, UserDao userDao,
-                       UserMapper userMapper) {
+                       UserMapper userMapper, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.userDao = userDao;
         this.userMapper = userMapper;
+        this.roleRepository = roleRepository;
     }
 
     public UserResponse getMyInfo() {
@@ -85,6 +90,11 @@ public class UserService {
 
         // ghi đè lại user vừa fetch
         this.userMapper.updateUser(user, request);
+        user.setPassword(this.passwordEncoder.encode(request.getPassword()));
+
+        Role role = this.roleRepository.findRoleById(request.getRoleId())
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        user.setRole(role);
 
         return this.userMapper.toUserReponse(this.userRepository.save(user));
     }

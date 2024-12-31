@@ -7,12 +7,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Integer> {
 
     @Query(value = "SELECT * FROM roles AS R WHERE R.role_name = :roleName", nativeQuery = true)
     Role findRoleByName(@Param("roleName") String name);
+
+    @Query(value = "SELECT * FROM roles AS R WHERE R.role_id = :roleId", nativeQuery = true)
+    Optional<Role> findRoleById(@Param("roleId") int roleId);
 
     @Query(value = "SELECT * FROM roles ", nativeQuery = true)
     List<Role> getAllRoles();

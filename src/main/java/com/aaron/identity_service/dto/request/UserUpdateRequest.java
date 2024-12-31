@@ -1,5 +1,7 @@
 package com.aaron.identity_service.dto.request;
 
+import com.aaron.identity_service.entity.Role;
+
 import java.time.LocalDate;
 
 public class UserUpdateRequest {
@@ -7,16 +9,18 @@ public class UserUpdateRequest {
     private String firstName;
     private String lastName;
     private LocalDate dob;
+    private int roleId;
 
     public UserUpdateRequest() {
 
     }
 
-    public UserUpdateRequest(String password, String firstName, String lastName, LocalDate dob) {
+    public UserUpdateRequest(String password, String firstName, String lastName, LocalDate dob, int roleId) {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dob = dob;
+        this.roleId = roleId;
     }
 
     public String getPassword() {
@@ -49,6 +53,14 @@ public class UserUpdateRequest {
 
     public void setDob(LocalDate dob) {
         this.dob = dob;
+    }
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
     }
 
 }
