@@ -67,7 +67,7 @@ public class UserService {
         return this.userMapper.toUserReponse(this.userDao.create(user));
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('APPROVE_POST')")
     public List<UserResponse> getAllUsers() {
         List<User> users =  this.userRepository.getAllUsers();
         List<UserResponse> userResponses = new ArrayList<>();
